@@ -13,12 +13,12 @@ contract Netflix {
         uint buyer_id; /** Stores the buyer_id if the product has been bought*/
         string buyer_public_key; /** Stores the public key of the buyer if the product has been bought */
         string encrypted_msg; /** Stores the cipher text encrypted by the Seller using the Buyer's public key if the product has been bought */
-        uint selling_type;
-        uint bidding_closed;
-        uint reveal_closed;
-        uint number_of_bids;
-        mapping (uint => bytes32) bids;
-        mapping (uint => uint) revealed_bids;
+        uint selling_type; /** Stores the type of selling 1:Normal 2:First-price sealed-bid auction 3:Vickrey auction 4:Average Price Auction */
+        uint bidding_closed; /** Stores if the bidding is closed or not */
+        uint reveal_closed; /** Stores if the reveal period is over or not */
+        uint number_of_bids; /** Stores the total number of bids */
+        mapping (uint => bytes32) bids; /** Stores the hashed bids with their corresponding buyer's unique ID */ 
+        mapping (uint => uint) revealed_bids;  /** Stores the revealed bids with their corresponding buyer's unique ID */
     }
 
     uint private sellers = 0; /**  Stores the number of sellers. This also acts as a key for the reverse mapping of sellers*/
@@ -68,6 +68,7 @@ contract Netflix {
      * @param _name The name of product being listed
      * @param _description The description of product being listed
      * @param _price The price of product being listed
+     * @param _selling_type The selling type of the item
      */
 
     function listItem(string memory _name, string memory _description, uint _price, uint _selling_type) public
@@ -135,7 +136,7 @@ contract Netflix {
     }
 
     /**
-     * This public payable function is called by a potential Buyer when he wants to buy a specific listed product.
+     * This public payable function is called by a potential Buyer when he wants to buy a specific listed product which are not listed for any auction.
      * The buyer also gives the price of the prouct in the msg.value while calling which should exactly match with the listed price for a succesful transaction.
      * The function transfers money (stages it) from the Buyer's account to the Contract's address.
      * @param listing_id The listing id of the product the buyer is interested in buying.
@@ -163,10 +164,17 @@ contract Netflix {
         }
     }
     
-    function get_hash(uint bid) view public returns(bytes32)
+    function get_hash(uint bid) pure public returns(bytes32)
     {
         return keccak256(abi.encodePacked(bid));
     }
+
+    /**
+    * This public function is called by a potential Buyer when he wants to place a bid for a specific listed product.
+    * The buyer gives a hashed value of the bid while calling the function in addition to the listing_id of the specific product
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    * @param hashed_bid The hash of bid the buyer wants to make
+    */
 
     function place_bid(uint listing_id, bytes32 hashed_bid) public
     {
@@ -187,7 +195,12 @@ contract Netflix {
             listedItems[listing_id].bids[reverse_buyers_mapping[msg.sender]]=hashed_bid;
         }
     }
-    
+
+    /**
+    * This public function is called by the Seller when he wants to close biding for a specific listed product.
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    */
+
     function close_bidding(uint listing_id) public
     {
         require(listedItems[listing_id].selling_type>1,"This Item is not listed for Auction");
@@ -195,6 +208,13 @@ contract Netflix {
         require(listedItems[listing_id].seller_id==reverse_sellers_mapping[msg.sender],"Item is not listed by you");
         listedItems[listing_id].bidding_closed=1;
     }
+
+    /**
+     * This public function is called by a Buyer when he wants to reveal the actual bid for a specific listed product.
+     * The buyer gives the actual bid value while calling the function in addition to the listing_id of the specific product
+     * @param listing_id The listing id of the product the buyer is interested in buying.
+     * @param bid The hash of bid the buyer wants to make
+     */
 
     function reveal_bid(uint listing_id, uint bid) public
     {
@@ -205,6 +225,12 @@ contract Netflix {
         require(keccak256(abi.encodePacked(bid)) == listedItems[listing_id].bids[reverse_buyers_mapping[msg.sender]],"The revealed bid is not the same as the original bid");
         listedItems[listing_id].revealed_bids[reverse_buyers_mapping[msg.sender]]=bid;
     }
+
+    /**
+    * This public function is called by the Seller when he wants to end revealing period for a specific listed product.
+    * This function also calculates the winner and payable amount of the auction
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    */
 
     function close_revealing(uint listing_id) public
     {
@@ -290,7 +316,12 @@ contract Netflix {
             }
         }
     }
-    
+
+    /**
+    * This public function is called by a Buyer when he wants to know the winner of the auction of a specific product.
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    */
+
     function get_winner(uint listing_id) view public returns(address)
     {
         require(listedItems[listing_id].selling_type>1,"This Item is not listed for Auction");
@@ -299,6 +330,11 @@ contract Netflix {
         return buyers_mapping[listedItems[listing_id].buyer_id];
     }
 
+    /**
+    * This public function is called by a Buyer when he wants to know the payable amount of the auction of a specific product.
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    */
+
     function get_payable_amount(uint listing_id) view public returns(uint)
     {
         require(listedItems[listing_id].selling_type>1,"This Item is not listed for Auction");
@@ -306,6 +342,14 @@ contract Netflix {
         require(listedItems[listing_id].reveal_closed==1,"Reveal Period is still going on");
         return listedItems[listing_id].price;
     }
+
+    /**
+    * This public payable function is called by a potential Buyer when he wants to buy a specific listed product which was listed for an Auction.
+    * The buyer also gives the price of the prouct in the msg.value while calling which should exactly match with the listed price for a succesful transaction.
+    * The function transfers money (stages it) from the Buyer's account to the Contract's address.
+    * @param listing_id The listing id of the product the buyer is interested in buying.
+    * @param _public_key The public key of the buyer which will then be encrypted by the seller and then decrupted later by the buyer
+    */
 
     function buyAuctionItem(uint listing_id, string memory _public_key) public payable
     {
