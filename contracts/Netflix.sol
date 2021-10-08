@@ -72,6 +72,8 @@ contract Netflix {
 
     function listItem(string memory _name, string memory _description, uint _price, uint _selling_type) public
     {
+        require(_selling_type>=1,"Invalid Selling Type");
+        require(_selling_type<=4,"Invalid Selling Type");
         if(reverse_sellers_mapping[msg.sender]==0)
         {
             sellers++;
@@ -100,7 +102,7 @@ contract Netflix {
         for (uint i=0; i < listedItems.length; i+=1) 
         {
             Item memory cur = listedItems[i];
-            if (cur.bought == 0)
+            if (cur.bought == 0 && cur.bidding_closed == 0)
             {
                 counter++;
                 if(cur.selling_type==1)
@@ -160,7 +162,11 @@ contract Netflix {
             listedItems[listing_id].buyer_id = reverse_buyers_mapping[msg.sender];
         }
     }
-
+    
+    function get_hash(uint bid) view public returns(bytes32)
+    {
+        return keccak256(abi.encodePacked(bid));
+    }
 
     function place_bid(uint listing_id, bytes32 hashed_bid) public
     {
@@ -172,13 +178,13 @@ contract Netflix {
             buyers++;
             reverse_buyers_mapping[msg.sender] = buyers;
             buyers_mapping[buyers] = msg.sender;
-            listed_items[listing_id].number_of_bids++;
-            listed_items[listing_id].bids[buyers]=hashed_bid;
+            listedItems[listing_id].number_of_bids++;
+            listedItems[listing_id].bids[buyers]=hashed_bid;
         }
         else
         {
-            listed_items[listing_id].number_of_bids++;
-            listed_items[listing_id].bids[reverse_buyers_mapping[msg.sender]]=hashed_bid;
+            listedItems[listing_id].number_of_bids++;
+            listedItems[listing_id].bids[reverse_buyers_mapping[msg.sender]]=hashed_bid;
         }
     }
     
@@ -259,10 +265,10 @@ contract Netflix {
             }
             average = sum/count;
 
-            uint min_dist = 10000000000000000000000000;
+            uint min_distance = 10000000000000000000000000;
+            uint temp_distance;
             for(iterator=1;iterator<=buyers;iterator++)
             {
-                uint temp_distance=0;
                 if(listedItems[listing_id].revealed_bids[iterator]>0)
                 {
                     if(listedItems[listing_id].revealed_bids[iterator]-average>=0)
