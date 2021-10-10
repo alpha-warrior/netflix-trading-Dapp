@@ -98,7 +98,7 @@ contract Netflix {
 
     function viewAvailItems() public view returns(string memory)
     {
-        string memory ret = "";
+        string memory ret="";
         uint counter= 0;
         for (uint i=0; i < listedItems.length; i+=1) 
         {
@@ -108,29 +108,13 @@ contract Netflix {
                 counter++;
                 if(cur.selling_type==1)
                 {
-                    ret = string(abi.encodePacked(ret,"\n\n","**************************","\n","Listing Id: ",uint2str(cur.listing_id),"\n","Name: ",cur.name,"\n","Description: ",cur.description,"\n","Price: ",uint2str(cur.price)));
+                    ret = string(abi.encodePacked(ret,"\n","Listing Id:",uint2str(cur.listing_id),";","Name:",cur.name,";","Description:",cur.description,";","Price:",uint2str(cur.price),";","Selling_Type:",uint2str(cur.selling_type)));
                 }
-                else if(cur.selling_type==2)
+                else
                 {
-                    ret = string(abi.encodePacked(ret,"\n\n","**************************","\n","Listing Id: ",uint2str(cur.listing_id),"\n","Name: ",cur.name,"\n","Description: ",cur.description,"\n","Auction Type: First-price sealed-bid auction"));
-                }
-                else if(cur.selling_type==3)
-                {
-                    ret = string(abi.encodePacked(ret,"\n\n","**************************","\n","Listing Id: ",uint2str(cur.listing_id),"\n","Name: ",cur.name,"\n","Description: ",cur.description,"\n","Auction Type: Vickrey auction"));
-                }
-                else if(cur.selling_type==4)
-                {
-                    ret = string(abi.encodePacked(ret,"\n\n","**************************","\n","Listing Id: ",uint2str(cur.listing_id),"\n","Name: ",cur.name,"\n","Description: ",cur.description,"\n","Auction Type: Average price auction"));
+                    ret = string(abi.encodePacked(ret,"\n","Listing Id:",uint2str(cur.listing_id),";","Name:",cur.name,";","Description:",cur.description,";","Price:",uint2str(0),";","Selling_Type:",uint2str(cur.selling_type)));
                 }
             }
-        }
-        if(counter!=0)
-        {
-            ret = string(abi.encodePacked(ret,"\n","***************************"));
-        }
-        else 
-        {
-            ret = "NO NETFLIX SCREENS ARE CURRENTLY UP FOR SALE";
         }
         return ret;
     }
