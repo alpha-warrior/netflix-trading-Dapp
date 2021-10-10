@@ -33,25 +33,35 @@ App = {
       App.web3Provider = new Web3.providers.HttpProvider('https://tathagata-raha-tanmaysachan-dice-game-dapp-xg5wx4xj3vjjj-8545.githubpreview.dev/');
       web3 = new Web3(App.web3Provider);
     }
-    return App.initContract();
+    return await App.initContract();
   },
 
-  initContract: function() {
+  initContract: async function() {
+    
     $.getJSON("Netflix.json", function(netflix) {
       // Instantiate a new truffle contract from the artifact
       App.contracts.Netflix = TruffleContract(netflix);
       // Connect provider to interact with contract
       App.contracts.Netflix.setProvider(App.web3Provider);
+      
       // App.listenForEvents();
       return App.render();
     });
   },
-  render: function() {
+  render: async function() {
     var electionInstance;
     var content = $("#content");
-    
     // Load account data
-    web3.eth.getCoinbase(function(err, account) {
+    await web3.eth.getCoinbase(async function(err, account) {
+      await App.contracts.Netflix.deployed().then(async function(instance) {
+        console.log("abcd")
+        console.log(App.account)
+        var listedItems = $("#listedItems");
+        var res = await instance.viewAvailItems({from: App.account});
+        console.log(res)
+      }).catch(function(error) {
+        console.warn(error);
+      });
       if (err === null) {
         App.account = account;
         $("#accountAddress").html("Your Account: " + account);
@@ -60,6 +70,8 @@ App = {
         $("#accountAddress").html("Account not detected");
         console.log("Account not detected")
       }
+      
+  
     });
 
     // Load contract data
@@ -120,9 +132,14 @@ App = {
   }
 
 };
-
-$(function() {
-  $(window).load(function() {
-    App.init();
-  });
-});
+window.addEventListener('load', async () => {
+  try {
+             await ethereum.enable();
+         } catch (error) {}
+         App.init();
+  });  
+// $(function() {
+//   $(window).load(function() {
+//     App.init();
+//   });
+// });
