@@ -191,7 +191,9 @@ window.addEventListener('load', async () => {
 $("#addi").submit(function(e) {
     e.preventDefault();
 });
-
+$("#buyi").submit(function(e) {
+  e.preventDefault();
+});
 $("#getpkeyi").submit(function(e) {
   e.preventDefault();
 });
@@ -234,9 +236,20 @@ async function buy_item(){
           document.location.reload();
           console.log(res)
         }).catch(function(error) {
+          var temp = error.data.message.split(":")[1].split(" ");
+          temp.shift();
+          temp.shift();
+          if (temp instanceof Array) {
+            temp2 = temp.join(' ');
+          }
+          else {
+            temp2 = temp;
+          }
+          console.log(temp2)
+          alert(temp2)
           // console.warn(error);
-          console.log(error)
-          alert("Error in Buying Item")
+          // console.log(error)
+          // alert("Error in Buying Item")
         });
         
       })
@@ -250,9 +263,20 @@ async function buy_item(){
           document.location.reload();
           console.log(res)
         }).catch(function(error) {
+          var temp = error.data.message.split(":")[1].split(" ");
+          temp.shift();
+          temp.shift();
+          if (temp instanceof Array) {
+            temp2 = temp.join(' ');
+          }
+          else {
+            temp2 = temp;
+          }
+          console.log(temp2)
+          alert(temp2)
           // console.warn(error);
-          console.log(error)
-          alert("Error in Buying Item")
+          // console.log(error)
+          // alert("Error in Buying Item")
         });
       })
     })
@@ -267,11 +291,21 @@ async function get_public_key(){
         $("#gpk_pk").html(res);
         console.log(res)
       }).catch(function(error) {
-        // print_error = JSON.parse(error)
-        console.log(error)
-        // console.log(print_error)
-        // console.log(print_error.data.data)
-        alert("Error in receiving Public Key")
+
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        
+        // console.log(error)
+        // alert("Error in receiving Public Key")
       });
     })
   })
@@ -298,8 +332,19 @@ async function send_encrypted(){
         alert("Encrypted string sent")
         document.location.reload();
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in sending Encrypted string")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in sending Encrypted string")
       });
     })
   })
@@ -315,8 +360,19 @@ async function get_encrypted_string(){
         $("#db_enc").html(res);
         console.log(res)
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in receiving Encrypted string")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in receiving Encrypted string")
       });
     })
   })
@@ -349,8 +405,19 @@ async function submit_bid(){
         $("#db_enc").html(res);
         console.log(res)
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in Placing Bid")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in Placing Bid")
       });
     })
   })
@@ -366,8 +433,19 @@ async function reveal_bid(){
         document.location.reload();
         console.log(res)
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in Revealing Bid")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in Revealing Bid")
       });
     })
   })
@@ -381,10 +459,22 @@ async function close_bid(){
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.close_bidding(parseInt(id), {from: App.account}).then(function (res){
         alert("Bidding Period closed and Reveal Period started");
+        document.location.reload();
         console.log(res)
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in closing Bidding Period")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in closing Bidding Period")
       });
     })
   })
@@ -396,10 +486,22 @@ async function close_reveal(){
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.close_revealing(parseInt(id), {from: App.account}).then(function (res){
         alert("Reveal Period closed");
+        document.location.reload();
         console.log(res)
       }).catch(function(error) {
-        console.log(error)
-        alert("Error in closing Reveal Period")
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // console.log(error)
+        // alert("Error in closing Reveal Period")
       });
     })
   })
@@ -412,6 +514,7 @@ function generate_keys(){
   $("#private_key").html(newid.privateKey);
   console.log(newid)
 }
+
 async function query_bid(){
   var id = document.getElementById("qb_id").value;
   await web3.eth.getCoinbase(async function(err, account) {
@@ -427,8 +530,19 @@ async function query_bid(){
         }
         console.log(res)
       }).catch(function(error) {
-        alert("Error in querying the winner")
-        console.log(error)
+        var temp = error.data.message.split(":")[1].split(" ");
+        temp.shift();
+        temp.shift();
+        if (temp instanceof Array) {
+          temp2 = temp.join(' ');
+        }
+        else {
+          temp2 = temp;
+        }
+        console.log(temp2)
+        alert(temp2)
+        // alert("Error in querying the winner")
+        // console.log(error)
       });
     })
   })

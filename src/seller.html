@@ -12,10 +12,9 @@
   <body>
     <div class="btn">
       <a href="./buyer.html">
-        <input type="button" value="I am a Buyer !"/>
+        <input class="btn btn-success" type="button" value="I am a Buyer !"/>
       </a>
     </div>
-
     <div class="container" style="width: 650px;">
       <div class="row">
         <div class="col-lg-12">
@@ -23,14 +22,14 @@
           <hr/>
           <br/>
           <div id="content">
-            <table class="table">
+            <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Descrtiption</th>
+                  <th scope="col">Description</th>
                   <th scope="col">Price</th>
-                  <th scope="col">Selling type</th>
+                  <th scope="col">Selling Type</th>
                 </tr>
               </thead>
               <tbody id="candidatesResults">
@@ -42,14 +41,14 @@
           <hr/>
           <br/>
           <div id="content">
-            <table class="table">
+            <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Descrtiption</th>
+                  <th scope="col">Description</th>
                   <th scope="col">Price</th>
-                  <th scope="col">Selling type</th>
+                  <th scope="col">Selling Type</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -59,24 +58,58 @@
             <hr/>
 
             <h1 class="text-center">Add item</h1>
-            <form id="addi" onsubmit="add_item()">
-              <label for="name">Name:</label>
-              <input type="text" id="name" name="user_name" />
-              </br>
-              <label for="msg">Descrtiption:</label>
-              <textarea id="description" name="user_message"></textarea>
-              </br>
-              <label for="price">Price:</label>
-              <input type="text" id="price" name="user_name" />
-              </br>
-              <label for="type">Selling type:</label>
-              <input type="text" id="type" name="user_name" />
-              </br>
-              <input type="submit" value="Add!"/>
-            </br>
-            
+            <form class="form-horizontal" id="addi" onsubmit="add_item()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="name" name="user_name" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="msg">Description:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="description" name="user_message"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="price">Price:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="price" name="user_name" />
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="type">Type:</label>
+                <div class="col-sm-10">
+                  <select class="form-control custom-select" id="type" name="user_name">
+                    <option selected>Choose...</option>
+                    <option value="1">Normal</option>
+                    <option value="2">First-price sealed-bid auction</option>
+                    <option value="3">Vickrey auction</option>
+                    <option value="4">Average price auction</option>
+                  </select>
+                </div>
+              </div>
+              
+
+              <!-- <div class="form-group">
+                <label class="control-label col-sm-2" for="type">Type:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="type" name="user_name" />
+                </div>
+              </div> -->
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
             </form>
             <hr/>
+
             <!-- <h1 class="text-center">Get public key of sold item</h1>
             <form id="getpkeyi" onsubmit="get_public_key()">
               <label for="gpk_item_id">Item Id:</label>
@@ -84,37 +117,106 @@
               <input type="submit" value="Get public key!"/>
             </br>
             </form> -->
-            <h1 class="text-center">Send encrypted stuff</h1>
-            <form id="getpkeyi" onsubmit="send_encrypted()">
-              <label for="gpk_item_id">Item Id:</label>
-              <input type="text" id="gpk_item_id" name="gpk_item_id" />
-            </br>
-              <label for="gpk_pk">Public key:</label>
-              <textarea id="gpk_pk" name="gpk_pk"></textarea>
-              <input type="button" value="Get public key!" onclick="get_public_key()">
-            </br>
-              <label for="gpk_content">Content:</label>
-              <textarea id="gpk_content" name="gpk_content"></textarea>
-              <input type="button" value="Encrypt content!" onclick="encrypt_content()">
-            </br>
-              <label for="gpk_encrypted">Encrypted message:</label>
-              <textarea id="gpk_encrypted" name="gpk_encrypted" readonly></textarea> 
-            </br>
-              <input type="submit" value="Send Encrypted"/>
+
+
+            <h1 class="text-center">Send Password</h1>
+            <form class="form-horizontal" id="getpkeyi" onsubmit="send_encrypted()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="gpk_item_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="gpk_item_id" name="gpk_item_id" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="get_public_key()" value="Get Public Key"/>
+                </div>
+              </div>
+
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="get_public_key()">Get Public Key</button>
+                </div>
+              </div> -->
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="gpk_pk">Public key:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="gpk_pk" name="gpk_pk"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="gpk_content">Password:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="gpk_content" name="gpk_content"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="encrypt_content()" value="Encrypt Password"/>
+                </div>
+              </div>
+
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="encrypt_content()">Encrypt Password</button>
+                </div>
+              </div> -->
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="gpk_encrypted">Encrypted Message:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="gpk_encrypted" name="gpk_encrypted" readonly></textarea> 
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Send Encrypted Password</button>
+                </div>
+              </div>
             </form>
             <hr/>
-            <h1 class="text-center">Bid management</h1>
-            <form id="reveal_bid" onsubmit="close_bid()">
-              <label for="rb_id">Close Bid Id:</label>
-              <input type="text" id="rb_id" name="rb_id" />
-              <input type="submit" value="Submit!"/>
+
+            <h1 class="text-center">Auction Management</h1>
+
+            <form class="form-horizontal" id="reveal_bid" onsubmit="close_bid()">
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="rb_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="rb_id" name="rb_id" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-danger">Close Bidding Period</button>
+                </div>
+              </div>
             </form>     
-            <form id="close_bid" onsubmit="close_reveal()">
-              <label for="cb_id">Close reveal Bid Id:</label>
-              <input type="text" id="cb_id" name="cb_id" />
-              <input type="submit" value="Submit!"/>
+
+            <form class="form-horizontal" id="close_bid" onsubmit="close_reveal()">
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="cb_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="cb_id" name="cb_id" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-danger">Close Reveal Period</button>
+                </div>
+              </div>
             </form>              
             <hr/>
+
             <p id="accountAddress" class="text-center"></p>
           </div>
         </div>

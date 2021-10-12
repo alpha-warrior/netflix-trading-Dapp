@@ -12,7 +12,7 @@
   <body>
     <div class="btn">
       <a href="./seller.html">
-        <input type="button" value="I am a Seller !"/>
+        <input class="btn btn-warning" type="button" value="I am a Seller !"/>
       </a>
     </div>
     <div class="container" style="width: 650px;">
@@ -22,14 +22,14 @@
           <hr/>
           <br/>
           <div id="content">
-            <table class="table">
+            <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Descrtiption</th>
+                  <th scope="col">Description</th>
                   <th scope="col">Price</th>
-                  <th scope="col">Selling type</th>
+                  <th scope="col">Selling Type</th>
                 </tr>
               </thead>
               <tbody id="candidatesResults">
@@ -41,14 +41,14 @@
           <hr/>
           <br/>
           <div id="content">
-            <table class="table">
+            <table class="table table-hover table-striped table-bordered">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">ID</th>
                   <th scope="col">Name</th>
-                  <th scope="col">Descrtiption</th>
+                  <th scope="col">Description</th>
                   <th scope="col">Price</th>
-                  <th scope="col">Selling type</th>
+                  <th scope="col">Selling Type</th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
@@ -57,86 +57,237 @@
             </table>
 
             <hr/>
-            <h1 class="text-center">Buy normal Item</h1>
-            <form id="buyi" onsubmit="buy_item()">
-              <label for="b_item_id">Item Id:</label>
-              <input type="text" id="b_item_id" name="b_item_id" />
-            </br>
-              <label for="b_price">Pay Ether:</label>
-              <input type="text" id="b_price" name="b_price" />
-              </br>
-              <input type="button" onclick="generate_keys()" value="Generate Key pairs!"/>
-              </br>
-              </br>
-              <label for="pkey">Public key:</label>
+            <h1 class="text-center">Buy Item</h1>
+            <form class="form-horizontal" id="buyi" onsubmit="buy_item()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="b_item_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="b_item_id" name="b_item_id" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="b_price">Pay Ether:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="b_price" name="b_price" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="generate_keys()" value="Generate Key pairs"/>
+                </div>
+              </div>
+              
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="generate_keys()">Generate Key Pair</button>
+                </div>
+              </div> -->
+
+              <!-- <label for="pkey">Public key:</label>
               <textarea id="pkey" name="pkey"></textarea>
               </br>
               <label for="private_key">Save this Private key:</label>
               <textarea id="private_key" name="private_key"></textarea>
-              </br>
+              </br> -->
 
-              <label for="b_type">Type:</label>
-              <input type="radio" name="b_type" id="normal" checked>Normal
-              <input type="radio" name="b_type" id="auction">Auction
-              </br>
-              <input type="submit" value="Buy!"/>
-            </br>
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="pkey">Public Key:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="pkey" name="pkey"></textarea>
+                </div>
+              </div>
+            
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="private_key">Copy This:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="private_key" name="private_key"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group form-check">
+                <label class="control-label col-sm-2 form-check-label" for="b1_type">
+                  Normal
+                </label>
+                <div class="col-sm-10">
+                  <input class="form-check-input" type="radio" name="b1_type" id="normal" checked>
+                </div>
+              </div>
+
+              <div class="form-group form-check">
+                <label class="control-label col-sm-2 form-check-label" for="b_type">
+                  Auction
+                </label>
+                <div class="col-sm-10">
+                  <input class="form-check-input" type="radio" name="b_type" id="auction">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
+            </form>
+
+
+            <hr/>
+            <h1 class="text-center">Bid in Auction</h1>
+            <form class="form-horizontal" id="buyi" onsubmit="submit_bid()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="bi_item_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="bi_item_id" name="b_item_id" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="bi_price">Your Bid:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="bi_price" name="b_price" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="hash_price()" value="Hash Your Bid"/>
+                </div>
+              </div>              
+
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="hash_price()">Hash Your Bid</button>
+                </div>
+              </div> -->
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="bi_hash">Hash:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="bi_hash" name="bi_hash" readonly></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Submit Hash</button>
+                </div>
+              </div>
+
             </form>
             <hr/>
-            <h1 class="text-center">Bid Item</h1>
-            <form id="buyi" onsubmit="submit_bid()">
-              <label for="bi_item_id">Item Id:</label>
-              <input type="text" id="bi_item_id" name="b_item_id" />
-            </br>
-              <label for="bi_price">Bid price:</label>
-              <input type="text" id="bi_price" name="b_price" />
-              <input type="button" onclick="hash_price()" value="Hash price"/>
-              </br>
-              <label for="bi_hash">Hashed value:</label>
-              <textarea id="bi_hash" name="bi_hash" readonly></textarea>
-              </br>
-              <input type="submit" value="Submit Bid!"/>
-            </br>
+
+
+            <h1 class="text-center">Reveal Your Bid</h1>
+            <form class="form-horizontal" id="reveal_bid" onsubmit="reveal_bid()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="rvb_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="rvb_id" name="b_item_id" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="rvb_price">Your Bid:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="rvb_price" name="rvb_price" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Reveal Bid</button>
+                </div>
+              </div>
             </form>
             <hr/>
-            <h1 class="text-center">Reveal bid</h1>
-            <form id="reveal_bid" onsubmit="reveal_bid()">
-              <label for="rvb_id">Item Id:</label>
-              <input type="text" id="rvb_id" name="b_item_id" />
-            </br>
-              <label for="rvb_price">Bid price:</label>
-              <input type="text" id="rvb_price" name="rvb_price" />
-            </br>
-              <input type="submit" value="Reveal Bid!"/>
-            </br>
+
+            <h1 class="text-center">Auction's Result</h1>
+            <form class="form-horizontal" id="query_bid" onsubmit="query_bid()">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="qb_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="qb_id" name="qb_id"/>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success">Check Result</button>
+                </div>
+              </div>
             </form>
             <hr/>
-            <h1 class="text-center">Query bidded item</h1>
-            <form id="query_bid" onsubmit="query_bid()">
-              <label for="qb_id">Item Id:</label>
-              <input type="text" id="qb_id" name="qb_id"/>
-              <input type="submit" value="Reveal Bid!"/>
-            </br>
+
+            <h1 class="text-center">Decrypt Password</h1>
+            <form class="form-horizontal" id="decrypt_bought">
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="db_item_id">Item ID:</label>
+                <div class="col-sm-10">
+                  <input class="form-control" type="text" id="db_item_id" name="db_item_id" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="get_encrypted_string()" value="Get Encrypted Password"/>
+                </div>
+              </div>  
+
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="get_encrypted_string()">Get Encrypted Password</button>
+                </div>
+              </div> -->
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="db_enc">Encrypted Password:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="db_enc" name="db_enc" readonly></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="db_pvk">Enter key:</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="db_pvk" name="db_pvk"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                  <input type="button" class="btn btn-info btn-block" onclick="decrypt_content()" value="Decrypt Password"/>
+                </div>
+              </div>              
+
+              <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-info btn-block" onclick="decrypt_content()">Decrypt Password</button>
+                </div>
+              </div> -->
+              
+              <div class="form-group">
+                <label class="control-label col-sm-2" for="db_msg">Password: </label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="db_msg" name="db_msg" readonly></textarea> 
+                </div>
+              </div>
             </form>
             <hr/>
-            <h1 class="text-center">Decrypt bought stuff</h1>
-            <form id="decrypt_bought">
-              <label for="db_item_id">Item Id:</label>
-              <input type="text" id="db_item_id" name="db_item_id" />
-              <input type="button" value="Get encrypted string!" onclick="get_encrypted_string()">
-            </br>
-              <label for="db_enc">Encrypted string:</label>
-              <textarea id="db_enc" name="db_enc" readonly></textarea>
-            </br>
-              <label for="db_pvk">Private key:</label>
-              <textarea id="db_pvk" name="db_pvk"></textarea>
-              <input type="button" value="Decrypt content!" onclick="decrypt_content()">
-            </br>
-              <label for="db_msg">Decrypted message: </label>
-              <textarea id="db_msg" name="db_msg" readonly></textarea> 
-            </br>
-            </form>
-            <hr/>
+
             <p id="accountAddress" class="text-center"></p>
           </div>
         </div>
