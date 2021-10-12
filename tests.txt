@@ -1,0 +1,256 @@
+Lets suppose all environements are set,
+and 3 accounts are set up on MetaMask Account1,Account2,Account3.
+
+###### TEST 1 ######
+List a new item from Account1:
+    --> go to seller.html
+    --> In Add Item form, 
+        * Add name (Screen1), Description (idk), Price (1000000000000000000), Type (Normal)  of new Item. 
+        * Press "Add!" button.
+    A new Item will be added to the list with listing ID 0.
+
+Buy the listed Item from Account2:
+    --> go to buyer.html
+    --> In Buy Item form,
+        * Add Item Id (0), Pay Ether which is Amount of Wei to be payed (1000000000000000000).
+        * Now click Generate Key Pairs Button to get public and private key.
+        * Please save the provided private key somewhere safe and secure (which will appear in text area aside the Copy this tag).
+        * Select type as Normal as this Item is listed for Normal sale and not for Auction.
+        * Press Buy! button. 
+
+    Amount of 1000000000000000000 wei or 1 ETH will be substracted from Account2's wallet.
+
+Deliver the listed Items password from Account1:
+    ---> go to seller.html
+    ---> In Send Pssword Form,
+        * Add Item Id(0).
+        * Press Get Public Key button to get the public key of buyer.
+        * Add content of secret string in the Password text box ("I AM YOUR PASSWORD").
+        * Press Encrypt Password button to encrypt the string, which will be displayed in the box below.
+        * Press Send Encrypted Password button to send the encrypted string.
+    
+    Amount of 1 ETH will be added to Account1 wallet.
+
+Fetch the encrypted string:
+    --> go to buyer.html
+    --> In Decrypt Password form:
+        * Input Item id 0;
+        * Press Get Encrypted Password to get the encrypted string.
+        * Put in the private key we saved in last step in the next input area.
+        * Get the decrypted string "I AM YOUR PASSWORD" in the box below.
+
+###### TEST 2 ######
+List a new item from Account1:
+    --> go to seller.html
+    --> In Add Item form, 
+        * Add name (Screen1), Description (idk), Price (1000000000000000000), Selling Type (Normal)  of new Item. 
+        * Press "Add!" button.
+    A new Item will be added to the list with listing ID 0.
+
+Buy the listed Item from Account2:
+    --> go to buyer.html
+    --> In Buy Item form,
+        * Add Item Id (0), Amount of Wei to be payed (1000000000000000000).
+        * Now click Generate Key Pairs Button to get public and private key.
+        * Please save the provided private key somewhere safe and secure.
+        * Select type as Normal as this Item is listed for Normal sale and not for Auction.
+        * Press Buy! button. 
+
+    Amount of 1000000000000000000 wei or 1 ETH will be substracted from Account2's wallet.
+
+Deliver the listed Items password from Account1:
+    ---> go to seller.html
+    ---> In Send Password Form,
+        * Add Item Id(0).
+        * Press Get Public Key button to get the public key of buyer.
+        * Add content of secret string in the Content text box "PASSWORD".
+        * Press Encrypt content button to encrypt the string, which will be displayed in the box below.
+        * Press Send Button to send the encrypted string.
+    
+    Amount of 1 ETH will be added to Account1 wallet.
+
+Fetch the encrypted string:
+    --> go to buyer.html
+    --> In Decrypt Password:
+        * Input Item id 0;
+        * Press get encrypted sting to get the encrypted string.
+        * In next input box,Put in the private key, but lets say we lost it and sent some other private key.
+        * Get the decrypted string in the box below, 
+          but this time a random string will appear as the private key was not from the pair of public key, 
+          hence no one would be able to get the password without this private key.
+
+
+###### TEST 3 ######
+List a new item from Account1:
+    --> go to seller.html
+    --> In Add Item form, 
+        * Add name (Screen1), Description (idk), Price (1000000000000000000), Selling Type (Highest Bidder, first price Auction)  of new Item. 
+        * Press "Add!" button.
+    A new Item will be added to the list with listing ID 0.
+
+Buy the listed Item from Account2:
+    --> go to buyer.html
+    --> In Buy Item form,
+        * Add Item Id (0), Amount of Wei to be payed (1000000000000000000).
+        * Now click Generate Key Pairs Button to get public and private key.
+        * Please save the provided private key somewhere safe and secure.
+        * Select type as Normal as this Item is listed for Normal sale and not for Auction.
+        * Press Buy! button. 
+
+    Amount of 1000000000000000000 wei or 1 ETH will be substracted from Account2's wallet.
+
+Deliver the listed Items password from Account2:
+    ---> go to seller.html
+    ---> In Send Enrypted String Form,
+        * Add Item Id(0).
+        * Press Get Public Key button to get the public key of buyer.
+
+    An error will appear as Account2 is not seller of Item with id 0.
+
+ 
+###### TEST 4 ######
+List a new item from Account1:
+    --> go to seller.html
+    --> In Add Item form, 
+        * Add name (Screen1), Description (idk), Price (anything), Selling Type (Highest Bidder first price auction)  of new Item. 
+        * Press "Add!" button.
+    A new Item will be added to the list with listing ID 0.
+
+Bid for the listed Item from Account2:
+    --> go to buyer.html
+    --> In bid item form,
+        * Add Item Id (0), Bid price (1000000000000000000).
+        * Now click Hash Price Button to get hashed bid in box below.
+        * Press Submit Bid! button to submit the bid. 
+
+Bid for the listed Item from Account3:
+    --> go to buyer.html
+    --> In bid item form,
+        * Add Item Id (0), Bid price (2000000000000000000).
+        * Now click Hash Price Button to get hashed bid in box below.
+        * Press Submit Bid! button to submit the bid. 
+
+Close the Bidding:
+    --> go to seller.html
+    --> In Bid Management
+        * Put item id 0 in Close Bid Id.
+        * Press Submit!
+    This will close the bidding for the following Item, 
+    and shift it to second list of sold items with status Reveal Period going on. 
+
+Reveal Bid for Account2:
+    --> go to seller.html
+    --> In the Reveal Bid form
+        * Add Item Id as 0.
+        * Put Bidding Price as 1000000000000000000.
+        * Press Reveal Bid.
+
+Reveal Bid for Account3:
+    --> go to seller.html
+    --> In the Reveal Bid form
+        * Add Item Id as 0.
+        * Put Bidding Price as 2000000000000000000.
+        * Press Reveal Bid.
+        
+Query if Account2 is Winner:
+    --> go to buyer.html
+    --> In Query Bidded Item form:
+        * put item id as 0.
+        * press get winner button.
+
+    As account 2 is not a winner of auction, an alert wil be thrown saying sorry you are not the winner.
+
+Query if Account3 is Winner:
+    --> go to buyer.html
+    --> In Query Bidded Item form:
+        * put item id as 0.
+        * press get winner button.
+
+    As account 3 is the winner of auction, an alert wil be thrown saying you won the auction you are need to pay 2000000000000000000 wei to buy the item.
+
+Buy the listed Item from Account3:
+    --> go to buyer.html
+    --> In Buy Item form,
+        * Add Item Id (0), Amount of Wei to be payed (2000000000000000000).
+        * Now click Generate Key Pairs Button to get public and private key.
+        * Please save the provided private key somewhere safe and secure.
+        * Select type as Auction as this Item is listed for Acution sale.
+        * Press Buy! button. 
+    An amout of 2ETH will be deducted from account3's wallet.
+
+Send the encrypted string as mentioned in TEST CASE #1
+Get the decrypted string as mentioned in TEST CASE #1
+
+
+###### TEST 5 ######
+List a new item from Account1:
+    --> go to seller.html
+    --> In Add Item form, 
+        * Add name (Screen1), Description (idk), Price (anything), Selling Type (Vickrey Auction)  of new Item. 
+        * Press "Add!" button.
+    A new Item will be added to the list with listing ID 0.
+
+Bid for the listed Item from Account2:
+    --> go to buyer.html
+    --> In bid item form,
+        * Add Item Id (0), Bid price (1000000000000000000).
+        * Now click Hash Price Button to get hashed bid in box below.
+        * Press Submit Bid! button to submit the bid. 
+
+Bid for the listed Item from Account3:
+    --> go to buyer.html
+    --> In bid item form,
+        * Add Item Id (0), Bid price (2000000000000000000).
+        * Now click Hash Price Button to get hashed bid in box below.
+        * Press Submit Bid! button to submit the bid. 
+
+Close the Bidding:
+    --> go to seller.html
+    --> In Bid Management
+        * Put item id 0 in Close Bid Id.
+        * Press Submit!
+    This will close the bidding for the following Item, 
+    and shift it to second list of sold items with status Reveal Period going on. 
+
+Reveal Bid for Account2:
+    --> go to seller.html
+    --> In the Reveal Bid form
+        * Add Item Id as 0.
+        * Put Bidding Price as 1000000000000000000.
+        * Press Reveal Bid.
+
+Reveal Bid for Account3:
+    --> go to seller.html
+    --> In the Reveal Bid form
+        * Add Item Id as 0.
+        * Put Bidding Price as 2000000000000000000.
+        * Press Reveal Bid.
+        
+Query if Account2 is Winner:
+    --> go to buyer.html
+    --> In Query Bidded Item form:
+        * put item id as 0.
+        * press get winner button.
+
+    As account 2 is not a winner of auction, an alert wil be thrown saying sorry you are not the winner.
+
+Query if Account3 is Winner:
+    --> go to buyer.html
+    --> In Query Bidded Item form:
+        * put item id as 0.
+        * press get winner button.
+
+    As account 3 is the winner of auction, an alert wil be thrown saying you won the auction you are need to pay 1000000000000000000 wei (second highest bid) to buy the item.
+
+Buy the listed Item from Account3:
+    --> go to buyer.html
+    --> In Buy Item form,
+        * Add Item Id (0), Amount of Wei to be payed (1000000000000000000).
+        * Now click Generate Key Pairs Button to get public and private key.
+        * Please save the provided private key somewhere safe and secure.
+        * Select type as Auction as this Item is listed for Acution sale.
+        * Press Buy! button. 
+    An amout of 1ETH will be deducted from account3's wallet.
+
+Send the encrypted string as mentioned in TEST CASE #1
+Get the decrypted string as mentioned in TEST CASE #1
