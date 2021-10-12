@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "eth-crypto": "^2.0.0",
+    "browserify": "^17.0.0",
+    "eth-crypto": "^2.1.0",
+    "uglify-js": "^3.14.2",
+    "uglifyjs-folder": "^3.0.0",
     "web3": "^1.5.3"
   },
   "name": "pet-shop",
