@@ -31,6 +31,27 @@
               </tbody>
             </table>
             <hr/>
+            
+          <h1 class="text-center">Sold Items</h1>
+          <hr/>
+          <br/>
+          <div id="content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Descrtiption</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Selling type</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="candidatesResults2">
+              </tbody>
+            </table>
+
+            <hr/>
             <h1 class="text-center">Buy normal Item</h1>
             <form id="buyi" onsubmit="buy_item()">
               <label for="b_item_id">Item Id:</label>
@@ -39,15 +60,21 @@
               <label for="b_price">Pay Ether:</label>
               <input type="text" id="b_price" name="b_price" />
               </br>
-              <label for="pkey">Enter public key:</label>
+              <input type="button" onclick="generate_keys()" value="Generate Key pairs!"/>
+              </br>
+              </br>
+              <label for="pkey">Public key:</label>
               <textarea id="pkey" name="pkey"></textarea>
               </br>
+              <label for="private_key">Save this Private key:</label>
+              <textarea id="private_key" name="private_key"></textarea>
+              </br>
+
               <label for="b_type">Type:</label>
               <input type="radio" name="b_type" id="normal" checked>Normal
               <input type="radio" name="b_type" id="auction">Auction
               </br>
               <input type="submit" value="Buy!"/>
-              <input type="button" onclick="generate_keys()" value="Generate Key pairs!"/>
             </br>
             </form>
             <hr/>

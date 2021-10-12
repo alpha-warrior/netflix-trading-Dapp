@@ -120,6 +120,59 @@ contract Netflix {
     }
 
     /**
+     * This public view function is called by the user to get the states of all sold items.
+     * This function returns the status of all the items which are either bought or whose bidding is closed.
+     * @return The string containing all the information.
+     */
+
+    function get_bought_item_statuses() public view returns(string memory)
+    {
+        string memory ret="";
+        uint counter= 0;
+        for (uint i=0; i < listedItems.length; i+=1) 
+        {
+            Item memory cur = listedItems[i]; 
+            if (cur.bidding_closed==1 || cur.bought==1)
+            {
+                counter++;
+                if(cur.selling_type==1)
+                {
+                    ret = string(abi.encodePacked(ret,"\n","Listing Id:",uint2str(cur.listing_id),";","Name:",cur.name,";","Description:",cur.description,";","Price:",uint2str(cur.price),";","Selling_Type:",uint2str(cur.selling_type)));
+                    if(cur.delivered==0)
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Delivery Pending"));
+                    }
+                    else
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Delivered"));
+                    }
+                }
+                else
+                {
+                    ret = string(abi.encodePacked(ret,"\n","Listing Id:",uint2str(cur.listing_id),";","Name:",cur.name,";","Description:",cur.description,";","Price:",uint2str(0),";","Selling_Type:",uint2str(cur.selling_type)));
+                    if(cur.reveal_closed==0)
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Reveal Period going on"));
+                    }
+                    else if(cur.bought==0)
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Waiting for winner to claim the prize"));
+                    }
+                    else if(cur.delivered==0)
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Delivery Pending"));
+                    }
+                    else
+                    {
+                        ret = string(abi.encodePacked(ret,";","State:Delivered"));
+                    }
+                }
+            }
+        }
+        return ret;  
+    }
+
+    /**
      * This public payable function is called by a potential Buyer when he wants to buy a specific listed product which are not listed for any auction.
      * The buyer also gives the price of the prouct in the msg.value while calling which should exactly match with the listed price for a succesful transaction.
      * The function transfers money (stages it) from the Buyer's account to the Contract's address.

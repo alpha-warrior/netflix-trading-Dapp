@@ -85,8 +85,34 @@ App = {
             var candidateTemplate = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + des + "</td><td>" + price+ "</td><td>" + stype + "</td></tr>"
             candidatesResults.append(candidateTemplate);
         }
+        
+        var soldItems = $("#listedItems");
+        var res2 = await instance.get_bought_item_statuses({from: App.account});
+        res2 = res2.split('\n')
+        console.log(res2)
+        soldItems.html(res2);
+        var candidatesResults2 = $("#candidatesResults2");
+        candidatesResults2.empty();
+
+        for (var i = 0; i < res2.length; i++) {
+          if (res2[i].length == 0){
+            continue;
+          }
+          tmp = res2[i].split(';')
+          var id = tmp[0].split(':')[1];
+          var name = tmp[1].split(':')[1];
+          var des = tmp[2].split(':')[1];
+          var price = tmp[3].split(':')[1];
+          var stype = tmp[4].split(':')[1];
+          var status_is = tmp[5].split(":")[1];
+          // Render candidate Result
+          var candidateTemplate2 = "<tr><th>" + id + "</th><td>" + name + "</td><td>" + des + "</td><td>" + price+ "</td><td>" + stype + "</td><td>" + status_is + "</td></tr>"
+          candidatesResults2.append(candidateTemplate2);
+      }
+
       }).catch(function(error) {
         console.warn(error);
+        console.log(error)
       });
       if (err === null) {
         App.account = account;
@@ -189,7 +215,8 @@ async function add_item(){
       console.log("abcd")
       console.log(name + description + price + type)
       await instance.listItem(name, description, parseInt(price), parseInt(type),{from: App.account});
-      alert("Login successfully");
+      alert("Item Listed successfully");
+      document.location.reload();
     })
   })
   
@@ -203,10 +230,13 @@ async function buy_item(){
     await web3.eth.getCoinbase(async function(err, account) {
       await App.contracts.Netflix.deployed().then(async function(instance) {
         await instance.buyNormalItem(parseInt(id),pkey, {from: App.account, value:parseInt(ether)}).then(function (res){
-          alert("Normal item bought succesfully");
+          alert("Item Bought succesfully");
+          document.location.reload();
           console.log(res)
         }).catch(function(error) {
-          console.warn(error);
+          // console.warn(error);
+          console.log(error)
+          alert("Error in Buying Item")
         });
         
       })
@@ -216,10 +246,13 @@ async function buy_item(){
     await web3.eth.getCoinbase(async function(err, account) {
       await App.contracts.Netflix.deployed().then(async function(instance) {
         await instance.buyAuctionItem(parseInt(id),pkey, {from: App.account, value:parseInt(ether)}).then(function (res){
-          alert("Auction item bought succesfully");
+          alert("Auction Item Bought succesfully");
+          document.location.reload();
           console.log(res)
         }).catch(function(error) {
-          console.warn(error);
+          // console.warn(error);
+          console.log(error)
+          alert("Error in Buying Item")
         });
       })
     })
@@ -230,11 +263,15 @@ async function get_public_key(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.get_public_key(parseInt(id), {from: App.account}).then(function (res){
-        alert("Public Key recieved. The public key is: " + res);
+        alert("Public Key: " + res);
         $("#gpk_pk").html(res);
         console.log(res)
       }).catch(function(error) {
-        alert("Error in recieving public key.")
+        // print_error = JSON.parse(error)
+        console.log(error)
+        // console.log(print_error)
+        // console.log(print_error.data.data)
+        alert("Error in receiving Public Key")
       });
     })
   })
@@ -259,9 +296,10 @@ async function send_encrypted(){
       await instance.send_encrypted_string(encrypted,parseInt(id), {from: App.account}).then(function (res){
         console.log(res)
         alert("Encrypted string sent")
+        document.location.reload();
       }).catch(function(error) {
-        alert("Error in recieving public key.")
         console.log(error)
+        alert("Error in sending Encrypted string")
       });
     })
   })
@@ -273,12 +311,12 @@ async function get_encrypted_string(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.get_encrypted_string(parseInt(id), {from: App.account}).then(function (res){
-        alert("Encrypted string recieved.");
+        alert("Encrypted string recieved");
         $("#db_enc").html(res);
         console.log(res)
       }).catch(function(error) {
-        alert("Error in recieving public key.")
         console.log(error)
+        alert("Error in receiving Encrypted string")
       });
     })
   })
@@ -307,12 +345,12 @@ async function submit_bid(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.place_bid(parseInt(id), hash, {from: App.account}).then(function (res){
-        alert("Bid placed.");
+        alert("Bid Placed");
         $("#db_enc").html(res);
         console.log(res)
       }).catch(function(error) {
-        alert("Error in placing bid.")
         console.log(error)
+        alert("Error in Placing Bid")
       });
     })
   })
@@ -324,11 +362,12 @@ async function reveal_bid(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.reveal_bid(parseInt(id), parseInt(price), {from: App.account}).then(function (res){
-        alert("Bid revealed successfully!");
+        alert("Bid Revealed successfully");
+        document.location.reload();
         console.log(res)
       }).catch(function(error) {
-        alert("Error in placing bid.")
         console.log(error)
+        alert("Error in Revealing Bid")
       });
     })
   })
@@ -341,11 +380,11 @@ async function close_bid(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.close_bidding(parseInt(id), {from: App.account}).then(function (res){
-        alert("Bidding closed and reveal period started");
+        alert("Bidding Period closed and Reveal Period started");
         console.log(res)
       }).catch(function(error) {
-        alert("Error in closing bid")
         console.log(error)
+        alert("Error in closing Bidding Period")
       });
     })
   })
@@ -356,10 +395,11 @@ async function close_reveal(){
   await web3.eth.getCoinbase(async function(err, account) {
     await App.contracts.Netflix.deployed().then(async function(instance) {
       await instance.close_revealing(parseInt(id), {from: App.account}).then(function (res){
-        alert("Bidding closed and reveal period started");
+        alert("Reveal Period closed");
         console.log(res)
       }).catch(function(error) {
-        alert("Error in closing bid")
+        console.log(error)
+        alert("Error in closing Reveal Period")
       });
     })
   })
@@ -367,8 +407,9 @@ async function close_reveal(){
 
 function generate_keys(){
   newid = App.ethcryp.createIdentity()
-  alert("Paste the public key below to purchase the item. Save the private key for future referance. Use it to decrypt the encrypted item.\n Your public key is: "+ newid.publicKey+"\n Your private key is: "+ newid.privateKey)
+  alert("Save the private key for future reference.\nPublic key: "+ newid.publicKey+"\nPrivate key: "+ newid.privateKey)
   $("#pkey").html(newid.publicKey);
+  $("#private_key").html(newid.privateKey);
   console.log(newid)
 }
 async function query_bid(){
@@ -378,15 +419,15 @@ async function query_bid(){
       await instance.get_winner(parseInt(id), {from: App.account}).then(async function (res){
         if(res == App.account){
           ether = await instance.get_payable_amount(parseInt(id), {from: App.account})
-          alert("Congrats! You won the bid on item "+ id+ ".\nWei to be paid: "+ ether)
+          alert("Congrats! You won the auction for Item "+ id+ ".\nWei to be paid: "+ ether)
           console.log(ether)
         }
         else{
-          alert("Oops! You are not the winner on item "+ id)
+          alert("Oops! You are not the winner of the auction for Item "+ id)
         }
         console.log(res)
       }).catch(function(error) {
-        alert("Error in placing bid.")
+        alert("Error in querying the winner")
         console.log(error)
       });
     })
